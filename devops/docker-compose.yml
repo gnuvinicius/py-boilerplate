@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  garage_db:
+    image: postgres
+    restart: always
+    container_name: garagedb
+    environment:
+      POSTGRES_DB: "garagedb-dev"
+      POSTGRES_USER: "garagedbuser"
+      POSTGRES_PASSWORD: "2AkByM4NfHFkeJz"
+      ALLOW_EMPTY_PASSWORD: "no"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "root@garage474.dev"
+      PGADMIN_DEFAULT_PASSWORD: "PgAdmin2022!"
+    ports:
+      - "16543:80"
+    depends_on:
+      - garage_db
+
+volumes:
+  postgresql_data:
