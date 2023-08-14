@@ -1,10 +1,10 @@
 from flask import Blueprint
 from flask_restx import Api
 from sqlalchemy.orm.exc import NoResultFound
-from flask_sqlalchemy import SQLAlchemy
+import sqlalchemy
 
 
-db = SQLAlchemy()
+# db = SQLAlchemy()
 
 blueprint = Blueprint('api', __name__)
 
