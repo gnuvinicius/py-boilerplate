@@ -12,7 +12,6 @@ class Course(Base):
     id: Mapped[str] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(String(30), unique=True)
     description: Mapped[Optional[str]]
-
     students: Mapped[List['Student']] = relationship(
         back_populates='course', cascade='all, delete-orphan')
 

@@ -1,7 +1,7 @@
 from config import api
 from flask_restx import Resource
+from config.token_required import token_required
 from .dtos.course_dto import course_request
-from flask import request, jsonify
 from asyncio import run
 import hashlib
 
@@ -24,12 +24,13 @@ class CourseEndpoints(Resource):
 
     @ns.doc('create courses')
     @ns.expect(course_request)
+    @token_required
     def post(self):
+
         encoded = 'integration-system-password'.encode()
         encrypted = hashlib.sha256(encoded)
 
         course_dto = api.payload
-
         run(self.repository.create_course(course=Course(
             course_dto['title'], course_dto['description'])))
 
