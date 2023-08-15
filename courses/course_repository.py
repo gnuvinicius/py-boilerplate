@@ -1,5 +1,5 @@
-from ..config import session
-from .course_models import Course
+from config import session
+from courses.course_models import Course
 
 
 class CourseRepository:
