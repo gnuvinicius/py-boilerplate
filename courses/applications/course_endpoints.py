@@ -2,11 +2,8 @@ from config import api
 from flask_restx import Resource
 from config.token_required import token_required
 from .dtos.course_dto import course_request
-from asyncio import run
-import hashlib
-
 from ..models.course_models import Course
-from ..data.course_repository import CourseRepository
+from .course_services import CourseService
 
 ns = api.namespace('default', description='default namespace')
 
@@ -15,7 +12,7 @@ ns = api.namespace('default', description='default namespace')
 class CourseEndpoints(Resource):
 
     def __init__(self, api=None, *args, **kwargs):
-        self.repository = CourseRepository()
+        self.service = CourseService()
         super().__init__(api, *args, **kwargs)
 
     @ns.doc('list_all')
@@ -26,12 +23,10 @@ class CourseEndpoints(Resource):
     @ns.expect(course_request)
     @token_required
     def post(self):
-
-        encoded = 'integration-system-password'.encode()
-        encrypted = hashlib.sha256(encoded)
-
-        course_dto = api.payload
-        run(self.repository.create_course(course=Course(
-            course_dto['title'], course_dto['description'])))
-
-        return {'hello': encrypted.hexdigest()}
+        try:
+            course_dto = api.payload
+            course = Course(course_dto['title'], course_dto['description'])
+            self.service.create_course(course)
+            return 200
+        except Exception as e:
+            return 400
