@@ -1,6 +1,6 @@
 from flask import Flask
 from config import api
-from courses.course_endpoints import ns
+from courses.applications.course_endpoints import ns
 
 
 def create_app():

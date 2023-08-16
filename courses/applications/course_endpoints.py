@@ -5,8 +5,8 @@ from .dtos.course_dto import course_request
 from asyncio import run
 import hashlib
 
-from .course_models import Course
-from .course_repository import CourseRepository
+from ..models.course_models import Course
+from ..data.course_repository import CourseRepository
 
 ns = api.namespace('default', description='default namespace')
 
